@@ -5,7 +5,7 @@ import com.github.deafmist.recipesweb.service.IngredientService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/ingredient")
+@RequestMapping("/ingredients")
 public class IngredientController {
     private IngredientService ingredientService;
 

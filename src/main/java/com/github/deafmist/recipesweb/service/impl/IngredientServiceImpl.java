@@ -1,5 +1,6 @@
 package com.github.deafmist.recipesweb.service.impl;
 
+import com.github.deafmist.recipesweb.exception.NoSuchIngredientException;
 import com.github.deafmist.recipesweb.model.Ingredient;
 import com.github.deafmist.recipesweb.service.IngredientService;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,9 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public Ingredient getIngredient(int id) {
+        if (!ingredients.containsKey(id)) {
+            throw new NoSuchIngredientException("Такого ингредиента не существует!");
+        }
         return ingredients.get(id);
     }
 }

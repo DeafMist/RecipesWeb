@@ -1,5 +1,6 @@
 package com.github.deafmist.recipesweb.service.impl;
 
+import com.github.deafmist.recipesweb.exception.NoSuchRecipeException;
 import com.github.deafmist.recipesweb.model.Recipe;
 import com.github.deafmist.recipesweb.service.RecipeService;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,9 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe getRecipe(int id) {
+        if (!recipes.containsKey(id)) {
+            throw new NoSuchRecipeException("Такого рецепта не существует!");
+        }
         return recipes.get(id);
     }
 }
