@@ -26,4 +26,26 @@ public class IngredientServiceImpl implements IngredientService {
         }
         return ingredients.get(id);
     }
+
+    @Override
+    public Map<Integer, Ingredient> getAllIngredients() {
+        return ingredients;
+    }
+
+    @Override
+    public void editIngredient(int id, Ingredient ingredient) {
+        if (!ingredients.containsKey(id)) {
+            throw new NoSuchIngredientException("Такого ингредиента не существует!");
+        }
+        ingredients.put(id, ingredient);
+    }
+
+    @Override
+    public boolean deleteIngredient(int id) {
+        if (ingredients.containsKey(id)) {
+            ingredients.remove(id);
+            return true;
+        }
+        return false;
+    }
 }

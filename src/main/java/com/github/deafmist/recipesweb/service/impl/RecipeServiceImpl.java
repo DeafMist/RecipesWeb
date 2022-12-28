@@ -26,4 +26,26 @@ public class RecipeServiceImpl implements RecipeService {
         }
         return recipes.get(id);
     }
+
+    @Override
+    public Map<Integer, Recipe> getAllRecipes() {
+        return recipes;
+    }
+
+    @Override
+    public void editRecipe(int id, Recipe recipe) {
+        if (!recipes.containsKey(id)) {
+            throw new NoSuchRecipeException("Такого рецепта не существует!");
+        }
+        recipes.put(id, recipe);
+    }
+
+    @Override
+    public boolean deleteRecipe(int id) {
+        if (recipes.containsKey(id)) {
+            recipes.remove(id);
+            return true;
+        }
+        return false;
+    }
 }
