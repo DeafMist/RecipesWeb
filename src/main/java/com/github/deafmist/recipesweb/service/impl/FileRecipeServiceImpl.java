@@ -4,6 +4,7 @@ import com.github.deafmist.recipesweb.service.FileService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.nio.file.Path;
 
 @Service
@@ -32,5 +33,10 @@ public class FileRecipeServiceImpl extends FileService {
     @Override
     protected String readFromFile(Path path) {
         return super.readFromFile(path);
+    }
+
+    @Override
+    public File getDataFile() {
+        return new File(dataFilePath + "/" + dataFileName);
     }
 }

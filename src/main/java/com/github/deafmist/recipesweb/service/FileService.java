@@ -1,5 +1,6 @@
 package com.github.deafmist.recipesweb.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,7 +33,7 @@ public abstract class FileService {
         }
     }
 
-    private boolean cleanDataFile(Path path) {
+    public boolean cleanDataFile(Path path) {
         try {
             Files.deleteIfExists(path);
             Files.createFile(path);
@@ -42,4 +43,6 @@ public abstract class FileService {
             return false;
         }
     }
+
+    public abstract File getDataFile();
 }
