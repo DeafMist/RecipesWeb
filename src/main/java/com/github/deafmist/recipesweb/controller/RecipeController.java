@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -74,7 +75,7 @@ public class RecipeController {
     }
     )
     @GetMapping
-    public ResponseEntity<Map<Integer, Recipe>> getAllRecipes() {
+    public ResponseEntity<List<Recipe>> getAllRecipes() {
         return ResponseEntity.ok(recipeService.getAllRecipes());
     }
 

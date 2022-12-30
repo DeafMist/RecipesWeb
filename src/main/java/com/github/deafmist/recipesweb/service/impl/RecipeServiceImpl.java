@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -46,8 +48,8 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Map<Integer, Recipe> getAllRecipes() {
-        return recipes;
+    public List<Recipe> getAllRecipes() {
+        return (LinkedList<Recipe>) recipes.values();
     }
 
     @Override

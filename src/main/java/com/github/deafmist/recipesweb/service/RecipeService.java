@@ -2,6 +2,7 @@ package com.github.deafmist.recipesweb.service;
 
 import com.github.deafmist.recipesweb.model.Recipe;
 
+import java.util.List;
 import java.util.Map;
 
 public interface RecipeService {
@@ -9,7 +10,7 @@ public interface RecipeService {
 
     Recipe getRecipe(int id);
 
-    Map<Integer, Recipe> getAllRecipes();
+    List<Recipe> getAllRecipes();
 
     void editRecipe(int id, Recipe recipe);
 
