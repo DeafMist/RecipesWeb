@@ -1,6 +1,7 @@
 package com.github.deafmist.recipesweb.controller;
 
 import com.github.deafmist.recipesweb.service.FileService;
+import com.github.deafmist.recipesweb.service.RecipeService;
 import com.github.deafmist.recipesweb.service.impl.FileIngredientServiceImpl;
 import com.github.deafmist.recipesweb.service.impl.FileRecipeServiceImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,18 +17,25 @@ import java.io.*;
 
 @RestController
 @RequestMapping("/files")
-public class FileController {
+public class  FileController {
     private FileService fileIngredientService;
 
     private FileService fileRecipeService;
 
+    private RecipeService recipeService;
+
     @Value("recipesDataFile")
     private String recipeDataFileName;
 
+    @Value("${file.recipe.txt}")
+    private String recipeTxt;
+
     public FileController(@Qualifier("fileIngredientServiceImpl") FileService fileIngredientService,
-                          @Qualifier("fileRecipeServiceImpl") FileService fileRecipeService) {
+                          @Qualifier("fileRecipeServiceImpl") FileService fileRecipeService,
+                          RecipeService recipeService) {
         this.fileIngredientService = fileIngredientService;
         this.fileRecipeService = fileRecipeService;
+        this.recipeService = recipeService;
     }
 
     @GetMapping("/recipes/export")
@@ -51,6 +59,21 @@ public class FileController {
             return ResponseEntity.noContent().build();
         }
     }
+
+    @GetMapping(value = "/recipes/download", produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<byte[]> downloadRecipesTxt() {
+        byte[] bytes = recipeService.exportTxt();
+
+        if (bytes == null) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.TEXT_PLAIN)
+                .contentLength(bytes.length)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + recipeTxt)
+                .body(bytes);
+    }
+
 
     @PostMapping(value = "/recipes/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> uploadRecipesDataFile(@RequestParam MultipartFile file) {

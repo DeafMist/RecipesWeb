@@ -5,8 +5,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.deafmist.recipesweb.exception.NoSuchIngredientException;
 import com.github.deafmist.recipesweb.model.Ingredient;
+import com.github.deafmist.recipesweb.model.Recipe;
 import com.github.deafmist.recipesweb.service.FileService;
 import com.github.deafmist.recipesweb.service.IngredientService;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -71,6 +75,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     private void saveToFile() {
         try {
+            DataFile dataFile = new DataFile(id + 1, ingredients);
             String json = new ObjectMapper().writeValueAsString(ingredients);
             fileService.saveToFile(json);
         } catch (JsonProcessingException e) {
@@ -82,11 +87,22 @@ public class IngredientServiceImpl implements IngredientService {
     private void readFromFile() {
         try {
             String json = fileService.readFromFile();
-            ingredients = new ObjectMapper().readValue(json, new TypeReference<Map<Integer, Ingredient>>() {
+            DataFile dataFile = new ObjectMapper().readValue(json, new TypeReference<DataFile>() {
             });
+            id = dataFile.getId();
+            ingredients = dataFile.getIngredients();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             throw new RuntimeException("Ошибка чтения из файла");
         }
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    private static class DataFile {
+        private int id;
+
+        private Map<Integer, Ingredient> ingredients;
     }
 }

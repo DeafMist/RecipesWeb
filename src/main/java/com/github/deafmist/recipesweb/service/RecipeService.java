@@ -15,4 +15,6 @@ public interface RecipeService {
     void editRecipe(int id, Recipe recipe);
 
     boolean deleteRecipe(int id);
+
+    byte[] exportTxt();
 }
